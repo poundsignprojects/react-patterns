@@ -1,0 +1,94 @@
+/* .grid-col {
+    float:left;
+} */
+
+.flipped-h {
+    transform: scale(-1, 1);
+}
+
+.flipped-v {
+    transform: scale(1, -1);
+}
+
+.pattern-row {
+    display: flex;
+    width: fit-content;
+}
+
+.grid-row {
+    line-height: 0;
+}
+
+.grid-square {
+    /* background-color: #ccc; */
+    height: 21px;
+    display: inline-block;
+    position: relative;
+    width: 21px;
+}
+
+.dot {
+    background-color: transparent;
+    height: 1px;
+    position: absolute;
+    width: 1px;
+    z-index: 10;
+}
+
+.dots-on {
+    background-color: #000;
+}
+
+.dot-1 {
+    left: -0.5px;
+    top: -0.5px;
+}
+
+.dot-2 {
+    right: -0.5px;
+    top: -0.5px;
+}
+
+.dot-3 {
+    left: -0.5px;
+    bottom: -0.5px;
+}
+
+.dot-4 {
+    right: -0.5px;
+    bottom: -0.5px;
+}
+
+.triangle {
+    background-color: red;
+    clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+/*
+.triangle-1 {
+ No transformation
+}
+*/
+
+.triangle-2 {
+    transform: rotate(-90deg);
+}
+
+.triangle-3 {
+    transform: rotate(180deg);
+}
+
+.triangle-4 {
+    transform: rotate(90deg);
+}
+
+.square {
+    background-color: red;
+    height: 100%;
+    width: 100%;
+}
