@@ -1,6 +1,6 @@
-/* .grid-col {
-    float:left;
-} */
+.test {
+    border: 1px solid #f00;
+}
 
 .flipped-h {
     transform: scale(-1, 1);

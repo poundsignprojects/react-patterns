@@ -3,9 +3,10 @@
 import Configurator from './configurator';
 
 import { useState } from 'react';
+import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import { TextField, Switch, FormControlLabel, Slider } from '@mui/material';
-import { Box } from '@mui/system';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
 
 function Dots({showDots}) {
   let dotsOn = '';
@@ -109,15 +110,16 @@ function PatternGrid({ gridSize, patternSize, showDots }) {
     grid.push(GetRandomShapes(gridSize));
   }
 
-  const fullGrid = []
+  const fullGridRow = []
   const initGrid = <InitialGrid grid={grid} showDots={showDots} />;
 
+  // build contents for a single grid row
   for(let i = 0; i < patternSize; i++) {
     let className = 'grid-col';
     if(i % 2 == 0) {
       className = 'grid-col flipped-h';
     }
-    fullGrid.push(
+    fullGridRow.push(
       <>
       <div className={className}>
       {initGrid}
@@ -128,6 +130,7 @@ function PatternGrid({ gridSize, patternSize, showDots }) {
   
   const patternGrid = [];
 
+  // place grid rows based on size of pattern
   for(let i = 0; i < patternSize; i++) {
     let className = 'pattern-row';
     if(i % 2 == 0) {
@@ -136,20 +139,30 @@ function PatternGrid({ gridSize, patternSize, showDots }) {
     patternGrid.push(
       <>
       <div className={className}>
-      {fullGrid}
+      {fullGridRow}
       </div>
       </>
     );
   }
   
-  // to do: make this dynamic, based on pattern size
+  // const padRow = [];
+
+  // for (let i = 0; i < gridSize * patternSize; i++) {
+  //   padRow.push(<GridSquare shapeNum={0} showDots={showDots} />);
+  // }
+  
   return (
     <>
+    {/* <div className='grid-row'>
+      {padRow}
+    </div> */}
     {patternGrid}
+    {/* <div className='grid-row'>
+      {padRow}
+    </div> */}
     </>
   );
 }
-
 
 export default function PatternApp() {
   // set Gridsize later from user params
@@ -157,62 +170,52 @@ export default function PatternApp() {
   const [patternSize, setPatternSize] = useState(4);
   const [patternNum, setPatternNum] = useState(0);
   const [showDots, setShowDots] = useState(true);
-  const marks = [
-    {value: 1, label: '1',},
-    {value: 2, label: '2',},
-    {value: 3, label: '3',},
-    {value: 4, label: '4',},
-    {value: 5, label: '5',},
-    {value: 6, label: '6',},
-    {value: 7, label: '7',},
-    {value: 8, label: '8',},
-    {value: 9, label: '9',},
-    {value: 10, label: '10',},
-  ];
+
+  const PatternPaper = styled(Paper)(({ theme }) => ({
+    padding: theme.spacing(2),
+  }));
 
   function NewPattern() {
     setPatternNum(patternNum + 1);
   }
-   
+
+  function Regenerate(settings) {
+    setGridSize(settings['gridSize']);
+    setPatternSize(settings['patternSize']);
+    setShowDots(settings['showDots']);
+  }
+
+
   return (
     <>
-      <Configurator />
-      <PatternGrid gridSize={gridSize} patternSize={patternSize} showDots={showDots} />
+      <Grid container justifyContent='center' direction='row' alignItems='center' spacing={2}>
+        <Grid item xs>
+        <Configurator regenerateFunc={Regenerate} />
+        </Grid>
+        <Grid item xs>
+          <Grid container justifyContent='center' direction='column' alignItems='center' spacing={2}>
+            <Grid item xs>
+              <Button variant='contained' size='small' onClick={() => NewPattern()}>
+                Regenerate
+              </Button>
+              &nbsp;&nbsp;
+              <Button variant='contained' disabled size='small'>
+                Save Pattern
+              </Button>
+            </Grid>
+            <Grid item xs>
+              <PatternPaper>
+                <PatternGrid gridSize={gridSize} patternSize={patternSize} showDots={showDots} />
+              </PatternPaper>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
       <span>{patternNum}</span>
-      <NewButton onNewClick={() => NewPattern()} />
-      <TextField size='small' value={gridSize} onChange={e => setGridSize(e.target.value)} label='Grid Size' />
-      <TextField size='small' value={patternSize} onChange={e => setPatternSize(e.target.value)} label='Pattern Size' />
-      <FormControlLabel control={<Switch defaultChecked />} label="Show Dots" onClick={() => {showDots ? setShowDots(false) : setShowDots(true)}}/>
-      <Box sx={{ width: 300 }}>
-      <Slider
-          defaultValue={3}
-          shiftStep={3}
-          step={1}
-          marks={marks}
-          min={1}
-          max={10}
-          onChange={(e, val) => console.log(val)}
-        />
-      <Slider
-          defaultValue={3}
-          shiftStep={3}
-          step={1}
-          marks={marks}
-          min={1}
-          max={10}
-        />
-      </Box>
     </>
   );
 }
 
-function NewButton({onNewClick}) {
-  return (
-    <Button variant='contained' onClick={onNewClick}>
-      New Pattern
-    </Button>
-  );
-}
 
 // TO DO:
 // Add color themes
