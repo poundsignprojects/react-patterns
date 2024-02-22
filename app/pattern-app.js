@@ -24,46 +24,50 @@ function Dots({showDots}) {
   );
 }
 
-function Shape({ shapeNum }) {
+function Shape({ shapeNum, shapeColor }) {
   let shapeName;
   switch(shapeNum) {
     case 1:
-      shapeName = "triangle triangle-1";
+      shapeName = "shape triangle triangle-1";
       break;
     case 2:
-      shapeName = "triangle triangle-2";
+      shapeName = "shape triangle triangle-2";
       break;
     case 3:
-      shapeName = "triangle triangle-3";
+      shapeName = "shape triangle triangle-3";
       break;
     case 4:
-      shapeName = "triangle triangle-4";
+      shapeName = "shape triangle triangle-4";
       break;
     case 5:
-      shapeName = "square";
+      shapeName = "shape square";
       break;
     default:
       shapeName = "";
   }
+
+  shapeName += " shape-" + shapeColor;
+
   return(
     <div className={ shapeName }></div>
   );
 }
 
-function GridSquare({ shapeNum, showDots }) {
+function GridSquare({ shapeNum, showDots, shapeColor }) {
   return (
     <div className='grid-square'>
       <Dots showDots={showDots} />
-      <Shape shapeNum={shapeNum} />
+      <Shape shapeNum={shapeNum} shapeColor={shapeColor} />
     </div>
   );
 }
 
-function GridRow({ shapes, showDots }) {
+function GridRow({ shapes, colors, showDots }) {
   return (
     <div className='grid-row'>
-      {shapes.map((num) => {
-        return <GridSquare shapeNum={num} showDots={showDots} />
+      {shapes.map((num, idx) => {
+        // console.log("idx", idx, colors[idx]);
+        return <GridSquare shapeNum={num} showDots={showDots} shapeColor={colors[idx]} />
       })}
     </div>
   );
@@ -72,7 +76,7 @@ function GridRow({ shapes, showDots }) {
 // Returns a an array of numbers of {num} length
 function GetRandomShapes(num) {
   const shapeArray = [];
-  for(let i = 0; i < num; i++) {
+  for (let i = 0; i < num; i++) {
     shapeArray.push(GetRandomShape());
   }
 
@@ -83,35 +87,64 @@ function GetRandomShapes(num) {
 function GetRandomShape() {
   const min = 1;
   const max = 6;
+  
   return parseInt(min + Math.random() * (max - min));
 }
 
-// function GetUniqueKey() {
-//   const min = 1;
-//   const max = 6;
-//   return (min + Math.random() * (max - min));
+// function GetRandomShape() {
+//   // const spec = { 1: 0.20, 2: 0.20, 3: 0.20, 4: 0.20, 5: 0.20, 6: 0.0 };
+//   const spec = { 1: 0.17, 2: 0.17, 3: 0.17, 4: 0.17, 5: 0.16, 6: 0.16 };
+//   var i, sum = 0, r = Math.random();
+//   for (i in spec) {
+//     sum += spec[i];
+//     if (r <= sum) {
+//       // console.log(i);
+//       return parseInt(i);
+//     }
+//   }
 // }
 
+function GetRandomColors(gridSize, colors) {
+  const colorArray = [];
+  for (let i = 0; i < gridSize.gridSize; i++) {
+    colorArray.push(GetRandomColor(colors));
+  }
+  return colorArray;
+}
+
+function GetRandomColor({colors}) {
+  const min = 0;
+  const max = colors.length;
+  const index = parseInt(min + Math.random() * (max - min));
+  return colors[index];
+}
+
+
 // Create small grid
-function InitialGrid({grid, showDots}) {
+function InitialGrid({grid, colors, showDots}) {
   return (
     <>
-      {grid.map((rowShapes) => {
-        return <GridRow shapes={rowShapes} showDots={showDots} />
+      {grid.map((rowShapes, idx) => {
+        return <GridRow shapes={rowShapes} colors={colors[idx]} showDots={showDots} />
       })}
     </>
   );
 }
 
-function PatternGrid({ gridSize, patternSize, showDots }) {
+function PatternGrid({ gridSize, patternSize, showDots, colors }) {
   // grid will be an array of numbers
   const grid = [];
   for(let i = 0; i < gridSize; i++) {
     grid.push(GetRandomShapes(gridSize));
   }
 
+  const colorNums = []
+  for(let i = 0; i < gridSize; i++) {
+    colorNums.push(GetRandomColors({gridSize}, {colors}));
+  }
+
   const fullGridRow = []
-  const initGrid = <InitialGrid grid={grid} showDots={showDots} />;
+  const initGrid = <InitialGrid grid={grid} colors={colorNums} showDots={showDots} />;
 
   // build contents for a single grid row
   for(let i = 0; i < patternSize; i++) {
@@ -170,6 +203,7 @@ export default function PatternApp() {
   const [patternSize, setPatternSize] = useState(4);
   const [patternNum, setPatternNum] = useState(0);
   const [showDots, setShowDots] = useState(true);
+  const [colors, setColors] = useState(['yellow', 'cyan', 'red', 'grey']);
 
   const PatternPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
@@ -183,6 +217,7 @@ export default function PatternApp() {
     setGridSize(settings['gridSize']);
     setPatternSize(settings['patternSize']);
     setShowDots(settings['showDots']);
+    setColors(settings['colors']);
   }
 
 
@@ -205,13 +240,13 @@ export default function PatternApp() {
             </Grid>
             <Grid item xs>
               <PatternPaper>
-                <PatternGrid gridSize={gridSize} patternSize={patternSize} showDots={showDots} />
+                <PatternGrid gridSize={gridSize} patternSize={patternSize} showDots={showDots} colors={colors} />
               </PatternPaper>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-      <span>{patternNum}</span>
+      {/* <span>{patternNum}</span> */}
     </>
   );
 }

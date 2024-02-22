@@ -1,5 +1,19 @@
-.test {
-    border: 1px solid #f00;
+.shape {
+    opacity: 1;
+    animation-name: fadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-duration: .25s;
+}
+
+@keyframes fadeInOpacity {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 .flipped-h {
@@ -20,7 +34,7 @@
 }
 
 .grid-square {
-    /* background-color: #ccc; */
+    /* background-color: cyan; */
     height: 21px;
     display: inline-block;
     position: relative;
@@ -59,8 +73,24 @@
     bottom: -0.5px;
 }
 
+.shape-grey {
+    background-color: #9e9e9e;
+}
+
+.shape-red {
+    background-color: #f44336;
+}
+
+.shape-yellow {
+    background-color: #ffeb3b;
+}
+
+.shape-cyan {
+    background-color: #00bcd4;
+}
+
 .triangle {
-    background-color: red;
+    /* background-color: red; */
     clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
     height: 100%;
     left: 0;
@@ -88,7 +118,7 @@
 }
 
 .square {
-    background-color: red;
+    /* background-color: red; */
     height: 100%;
     width: 100%;
 }

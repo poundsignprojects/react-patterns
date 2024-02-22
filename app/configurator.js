@@ -6,7 +6,57 @@ import { TextField, Switch, FormControlLabel, Slider } from '@mui/material';
 import { Box } from '@mui/system';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { alpha, styled } from '@mui/material/styles';
+import { yellow, cyan, red, grey } from '@mui/material/colors';
   
+const YellowSwitch = styled(Switch)(({ theme }) => ({
+  '& .MuiSwitch-switchBase.Mui-checked': {
+    color: yellow[600],
+    '&:hover': {
+      backgroundColor: alpha(yellow[600], theme.palette.action.hoverOpacity),
+    },
+  },
+  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+    backgroundColor: yellow[600],
+  },
+}));
+
+const CyanSwitch = styled(Switch)(({ theme }) => ({
+  '& .MuiSwitch-switchBase.Mui-checked': {
+    color: cyan[600],
+    '&:hover': {
+      backgroundColor: alpha(cyan[600], theme.palette.action.hoverOpacity),
+    },
+  },
+  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+    backgroundColor: cyan[600],
+  },
+}));
+
+const RedSwitch = styled(Switch)(({ theme }) => ({
+  '& .MuiSwitch-switchBase.Mui-checked': {
+    color: red[600],
+    '&:hover': {
+      backgroundColor: alpha(red[600], theme.palette.action.hoverOpacity),
+    },
+  },
+  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+    backgroundColor: red[600],
+  },
+}));
+
+const GreySwitch = styled(Switch)(({ theme }) => ({
+  '& .MuiSwitch-switchBase.Mui-checked': {
+    color: grey[600],
+    '&:hover': {
+      backgroundColor: alpha(grey[600], theme.palette.action.hoverOpacity),
+    },
+  },
+  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+    backgroundColor: grey[600],
+  },
+}));
+
 
 function RegeneratePattern(regenerateFunc, settings) {
   regenerateFunc(settings);
@@ -14,11 +64,7 @@ function RegeneratePattern(regenerateFunc, settings) {
 }
 
 export default function Configurator({regenerateFunc}) {
-  const [settings, setSettingsObj] = useState({ gridSize: 3, patternSize: 4, showDots: true });
-  const [gridSize, setGridSize] = useState(3);
-  const [patternSize, setPatternSize] = useState(4);
-  const [patternNum, setPatternNum] = useState(0);
-  // const [showDots, setShowDots] = useState(true);
+  const [settings, setSettingsObj] = useState({ gridSize: 3, patternSize: 4, showDots: true, colors:['yellow', 'cyan', 'red', 'grey'] });
   const marks = [
     {value: 1, label: '1',},
     {value: 2, label: '2',},
@@ -31,7 +77,21 @@ export default function Configurator({regenerateFunc}) {
     {value: 9, label: '9',},
     {value: 10, label: '10',},
   ];
-    
+  
+  function AddColor(color) {
+    const newColorArr = settings['colors'].map((x) => x);
+    newColorArr.push(color);
+
+    UpdateSettings('colors', newColorArr);
+  }
+
+  function RemoveColor(color) {
+    const newColorArr = [];
+    settings['colors'].forEach(colorSetting => {if(colorSetting != color) {newColorArr.push(colorSetting)}});
+
+    UpdateSettings('colors', newColorArr);
+  }
+
   function UpdateSettings(setting, newValue) {
     const newSettings = {};
     
@@ -82,6 +142,14 @@ export default function Configurator({regenerateFunc}) {
               max={10}
               onChange={(e, val) => UpdateSettings('patternSize', val)}
             />
+          </Box>
+        </Grid>
+        <Grid item xs>
+          <Box sx={{ width: 400 }}>
+          <FormControlLabel control={<YellowSwitch defaultChecked />} label="Yellow" onClick={() => { settings['colors'].indexOf('yellow') > -1 ? RemoveColor('yellow') : AddColor('yellow') }} />
+          <FormControlLabel control={<CyanSwitch defaultChecked />} label="Cyan" onClick={() => { settings['colors'].indexOf('cyan') > -1 ? RemoveColor('cyan') : AddColor('cyan') }} />
+          <FormControlLabel control={<RedSwitch defaultChecked />} label="Red" onClick={() => { settings['colors'].indexOf('red') > -1 ? RemoveColor('red') : AddColor('red') }} />
+          <FormControlLabel control={<GreySwitch defaultChecked />} label="Grey" onClick={() => { settings['colors'].indexOf('grey') > -1 ? RemoveColor('grey') : AddColor('grey') }} />
           </Box>
         </Grid>
         <Grid item xs>
