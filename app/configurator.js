@@ -153,7 +153,7 @@ export default function Configurator({regenerateFunc}) {
           </Box>
         </Grid>
         <Grid item xs>
-          <Button variant='contained' size='small' onClick={() => RegeneratePattern(regenerateFunc, settings)}>Generate Pattern</Button>
+          <Button variant='contained' size='small' onClick={() => RegeneratePattern(regenerateFunc, settings)}>Update Settings</Button>
         </Grid>
       </Grid>
     </>
