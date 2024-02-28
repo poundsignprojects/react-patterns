@@ -22,23 +22,7 @@ export default function PatternMaker() {
   return (
     <div>
       <Header title="Pattern Maker" />
-      {/* <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={8}>
-          <div className='test'>xs=8</div>
-        </Grid>
-        <Grid item xs={4}>
-          <div className='test'>xs=4</div>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <div className='test'>xs=12</div>
-        </Grid>
-        <Grid item xs={8}>
-          <div className='test'>xs=8</div>
-        </Grid>
-      </Grid>     
-      </Box>  */}
-          <PatternApp />
+        <PatternApp />
     </div>
   );
 }

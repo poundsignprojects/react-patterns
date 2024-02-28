@@ -225,18 +225,15 @@ export default function PatternApp() {
     <>
       <Grid container justifyContent='center' direction='row' alignItems='center' spacing={2}>
         <Grid item xs>
-        <Configurator regenerateFunc={Regenerate} />
-        </Grid>
-        <Grid item xs>
           <Grid container justifyContent='center' direction='column' alignItems='center' spacing={2}>
             <Grid item xs>
               <Button variant='contained' size='small' onClick={() => NewPattern()}>
                 Regenerate
               </Button>
-              &nbsp;&nbsp;
+              {/* &nbsp;&nbsp;
               <Button variant='contained' disabled size='small'>
                 Save Pattern
-              </Button>
+              </Button> */}
             </Grid>
             <Grid item xs>
               <PatternPaper>
@@ -244,6 +241,9 @@ export default function PatternApp() {
               </PatternPaper>
             </Grid>
           </Grid>
+        </Grid>
+        <Grid item xs>
+          <Configurator regenerateFunc={Regenerate} />
         </Grid>
       </Grid>
       {/* <span>{patternNum}</span> */}
