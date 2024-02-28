@@ -3,9 +3,7 @@
 import Configurator from './configurator';
 
 import { useState } from 'react';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
+import {Grid, Button, Paper} from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 function Dots({showDots}) {
@@ -91,19 +89,6 @@ function GetRandomShape() {
   return parseInt(min + Math.random() * (max - min));
 }
 
-// function GetRandomShape() {
-//   // const spec = { 1: 0.20, 2: 0.20, 3: 0.20, 4: 0.20, 5: 0.20, 6: 0.0 };
-//   const spec = { 1: 0.17, 2: 0.17, 3: 0.17, 4: 0.17, 5: 0.16, 6: 0.16 };
-//   var i, sum = 0, r = Math.random();
-//   for (i in spec) {
-//     sum += spec[i];
-//     if (r <= sum) {
-//       // console.log(i);
-//       return parseInt(i);
-//     }
-//   }
-// }
-
 function GetRandomColors(gridSize, colors) {
   const colorArray = [];
   for (let i = 0; i < gridSize.gridSize; i++) {
@@ -177,22 +162,10 @@ function PatternGrid({ gridSize, patternSize, showDots, colors }) {
       </>
     );
   }
-  
-  // const padRow = [];
-
-  // for (let i = 0; i < gridSize * patternSize; i++) {
-  //   padRow.push(<GridSquare shapeNum={0} showDots={showDots} />);
-  // }
-  
+    
   return (
     <>
-    {/* <div className='grid-row'>
-      {padRow}
-    </div> */}
     {patternGrid}
-    {/* <div className='grid-row'>
-      {padRow}
-    </div> */}
     </>
   );
 }
@@ -251,25 +224,3 @@ export default function PatternApp() {
   );
 }
 
-
-// TO DO:
-// Add color themes
-// Add ability to make changes then apply (instead of applying them instantly)
-// Turn dots on and off without redraw
-// Save patterns
-// Upload patterns
-
-// DONE define a single square
-  // DONE Draw a shape in the square
-  // Assign a color to the shape
-
-// DONE define a small grid of squares
-// row options:
-// reuse last row (weighted)
-// 
-
-// define a larger grid made up of small grids
-  // Clone small grid
-  // add ability to mirror
-
-// return whole pattern app
